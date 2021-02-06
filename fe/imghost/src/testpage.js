@@ -1,7 +1,10 @@
 import React from 'react';
+import { useState } from 'react';
 import ReactDOM from 'react-dom';
 import ReactS3 from 'react-s3';
 import keys from './keys.json'
+import { AxiosProvider, Request, Get, Delete, Head, Post, Put, Patch, withAxios } from 'react-axios'
+import axios from 'axios';
 
 const HeaderStyling  = {'color': 'var(--secondary)'};
 
@@ -25,12 +28,28 @@ export default function Test() {
 
 function FileUpload() {
 
+  const [name,setName] = useState("");
+  const [tags,setTags] = useState("");
+
+  
   function handleUpload(event) { 
     console.log(event.target.files[0])
+    alert(name+" "+tags)
     ReactS3.uploadFile(event.target.files[0],config).then((data)=>{
       console.log(data);
       
-      //#TODO: USE AXIOS TO SEND REQUEST TO BACK END WITH IMAGE INFORMATION
+      //#IMPORTANT: replace path to server with application you're testing
+      axios.put('path_to_server/image', {
+        s3bucket : data,
+        img_name : name,
+        img_tags : tags,
+      })
+      .then(function (res) {
+        console.log(res);
+      })
+      .catch((err) => {
+        alert(err);
+      })
 
     })
     .catch((err)=>{
@@ -40,7 +59,13 @@ function FileUpload() {
 
   return (
     <div id='upload-box'>
-      <input type="file" onChange={handleUpload} />
+      <form>
+        <label>Name:</label><br/>
+        <input type="text" value={name} onChange={e => setName(e.target.value)}  /><br/>
+        <label>Tags:</label><br/>
+        <input type="text" value={tags} onChange={e => setTags(e.target.value)}/><br/><br/>
+        <input type="file" onChange={handleUpload} />
+      </form>
     </div>
   )
 }
