@@ -6,3 +6,4 @@ fe/imghost/src/keys.json
 # BE
 
 be/images.db/
+be/ML_Tags/vision_api_key.json
