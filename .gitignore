@@ -1,7 +1,7 @@
 # FE
 
 fe/imghost/node_modules/
-
+fe/imghost/src/keys.json
 # BE
 
 be/images.db/
