@@ -5,7 +5,8 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import About from './About.js'
+import About from './About.js';
+import Home from './Home.js';
 
 function App() {
   return (
@@ -24,7 +25,7 @@ function App() {
 
         <Switch>
           <Route path="/about">
-            <AboutPage />
+            <About />
           </Route>
           <Route path="/">
             <Home />
@@ -35,11 +36,4 @@ function App() {
   );
 }
 
-function Home() {
-  return <h2>Home</h2>
-}
-
-function AboutPage() {
-  return About()
-}
 export default App;
