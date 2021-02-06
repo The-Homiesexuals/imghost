@@ -25,16 +25,7 @@ class SentenceURL:
         noun = choice(nouns)
         word_list = []
 
-        if self.word_count > 3:
-            if noun in vowels:
-                word_list = ['an']
-            else:
-                word_list = [choice(('a', 'the'))]
-
         word_list.extend(sample(adjectives, k = self.word_count-1))
-
-        if self.word_count > 4:
-            word_list.insert(2, 'and')
 
         word_list.append(noun)
 
