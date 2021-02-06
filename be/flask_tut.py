@@ -1,8 +1,13 @@
 from sentence_url import SentenceURL
 from flask import Flask, redirect, url_for, render_template, request, session, flash
+from flask_cors import CORS
+import json
+import database_queries
 #from datetime import timedelta
 
 app = Flask(__name__)
+CORS(app, resources={r"/*": {"origins": "*"}})
+database_queries.connectToDatabase()
 #app.secret_key = "hello"
 #app.permanent_session_lifetime = timedelta(minutes=5)
 generator = SentenceURL(3, True, '')
@@ -11,23 +16,41 @@ generator = SentenceURL(3, True, '')
 def home():
     return render_template("index.html")
 
-@app.route("/image", methods=["POST", "GET", "DELETE"])
+@app.route("/image", methods=["POST"])
 def upload():
     request_data = request.get_json()
-    s3bucket = request_data['s3bucket']['location']
+    s3bucket = request_data['s3bucket']
+    img_link = s3bucket['location']
     img_name = request_data['img_name']
     img_tags = request_data['img_tags']
-    #neat_url = generator.generate()
+    pretty_url = generator.generate()
     #return((url, neat_url))
-    print(s3bucket)
-    return(s3bucket, img_name, img_tags)
+    database_queries.addNewImage(pretty_url, img_name, img_link)
+    print(s3bucket, img_name, img_tags, pretty_url)
+    json_dict = {
+        "s3bucket": s3bucket,
+        "img_name": img_name,
+        "img_tags": img_tags,
+        "pretty_url": pretty_url }
+
+    return(json.dumps(json_dict))
+
+
+@app.route("/image/<pretty_url>", methods=["GET", "DELETE"])
+def fetchDelete():
+    if request.method == "GET":
+        return("Stinky")
+    else:
+         return("Uh oh")
 
 @app.route("/images", methods=["GET"])
 def multiImage():
-
+    return("Yo")
 
 @app.route("/random", methods=["GET"])
 def randomImage():
+    return("Yoyo")
+
 
 """
 @app.route("/login", methods=["POST", "GET"])
