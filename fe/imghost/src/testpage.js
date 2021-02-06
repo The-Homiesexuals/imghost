@@ -6,7 +6,7 @@ import keys from './keys.json'
 import { AxiosProvider, Request, Get, Delete, Head, Post, Put, Patch, withAxios } from 'react-axios'
 import axios from 'axios';
 
-const HeaderStyling  = {'color': 'var(--secondary)'};
+const HeaderStyling  = {'color': 'var(--secondary)',display:'inline',float:'none'};
 
 const config = {
   bucketName: 'imghoststoragebucket',
@@ -17,12 +17,14 @@ const config = {
 
 export default function Test() {
   return (
-    <h4 style={HeaderStyling}> 
-      Upload Image Below and Meta-data will be sent to server
-      <br/>
-      <br/>
-      <FileUpload />
-    </h4>
+    <div style={{textAlign:'center'}}>
+      <h4 style={HeaderStyling}> 
+        Upload Image Below and Meta-data will be sent to server
+        <br/>
+        <br/>
+        <FileUpload />
+      </h4>
+    </div>
   )
 }
 
@@ -64,7 +66,7 @@ function FileUpload() {
         <input type="text" value={name} onChange={e => setName(e.target.value)}  /><br/>
         <label>Tags:</label><br/>
         <input type="text" value={tags} onChange={e => setTags(e.target.value)}/><br/><br/>
-        <input type="file" onChange={handleUpload} />
+        <input type="file" onChange={handleUpload}/>
       </form>
     </div>
   )
