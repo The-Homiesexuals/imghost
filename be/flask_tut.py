@@ -37,19 +37,39 @@ def upload():
 
 
 @app.route("/image/<pretty_url>", methods=["GET", "DELETE"])
-def fetchDelete():
+def fetchDelete(pretty_url):
     if request.method == "GET":
-        return("Stinky")
+        request_data = request.get_json()
+        find_image = request_data['pretty_url']
+        image_found = database_queries.getImageURL(find_image)
+        json_dict = {
+            "img_url": image_found
+        }
+        return(json.dump(json_dict))
     else:
-         return("Uh oh")
+         request_data = request.get_json()
+         find_image = request_data['pretty_url']
+         image_found = database_queries.deleteImage(find_image)
+         json_dict = {
+             "img_url": image_found
+         }
+         return(json.dump(json_dict))
 
 @app.route("/images", methods=["GET"])
 def multiImage():
-    return("Yo")
+    images_found = database_queries.getAllImages(find_image)
+    json_dict = {
+        "img_urls": images_found
+    }
+    return(json.dump(json_dict))
 
 @app.route("/random", methods=["GET"])
 def randomImage():
-    return("Yoyo")
+    image_found = database_queries.getRandImage(find_image)
+    json_dict = {
+        "img_url": image_found
+    }
+    return(json.dump(json_dict))
 
 
 """
