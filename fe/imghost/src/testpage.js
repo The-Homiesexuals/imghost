@@ -18,7 +18,7 @@ const config = {
 export default function Test() {
   return (
     <div style={{textAlign:'center'}}>
-      <h4 style={HeaderStyling}> 
+      <h4 style={HeaderStyling}>
         Upload Image Below and Meta-data will be sent to server
         <br/>
         <br/>
@@ -33,15 +33,15 @@ function FileUpload() {
   const [name,setName] = useState("");
   const [tags,setTags] = useState("");
 
-  
-  function handleUpload(event) { 
+
+  function handleUpload(event) {
     console.log(event.target.files[0])
     alert(name+" "+tags)
     ReactS3.uploadFile(event.target.files[0],config).then((data)=>{
       console.log(data);
-      
+
       //#IMPORTANT: replace path to server with application you're testing
-      axios.put('path_to_server/image', {
+      axios.put('http://127.0.0.1:5000/image', {
         s3bucket : data,
         img_name : name,
         img_tags : tags,
