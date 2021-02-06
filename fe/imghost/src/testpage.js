@@ -41,17 +41,23 @@ function FileUpload() {
       console.log(data);
 
       //#IMPORTANT: replace path to server with application you're testing
-      axios.put('http://127.0.0.1:5000/image', {
-        s3bucket : data,
-        img_name : name,
-        img_tags : tags,
-      })
-      .then(function (res) {
+      axios({
+        method: 'post',
+        url: 'http://127.0.0.1:5000/image',
+        data: {
+          s3bucket : data,
+          img_name : name,
+          img_tags : tags,
+        },
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        }
+      }).then(function (res) {
         console.log(res);
       })
       .catch((err) => {
         alert(err);
-      })
+      });
 
     })
     .catch((err)=>{
