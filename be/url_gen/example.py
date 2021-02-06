@@ -1,5 +1,5 @@
 from sentence_url import SentenceURL
-generator = SentenceURL(4, True, '')
+generator = SentenceURL(3, True, '')
 
 def pretty_url(url):
     neat_url = generator.generate()

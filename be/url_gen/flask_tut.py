@@ -1,14 +1,34 @@
+from sentence_url import SentenceURL
 from flask import Flask, redirect, url_for, render_template, request, session, flash
-from datetime import timedelta
-import sqlalchemy
+#from datetime import timedelta
 
 app = Flask(__name__)
-app.secret_key = "hello"
-app.permanent_session_lifetime = timedelta(minutes=5)
+#app.secret_key = "hello"
+#app.permanent_session_lifetime = timedelta(minutes=5)
+generator = SentenceURL(3, True, '')
 
 @app.route("/")
 def home():
     return render_template("index.html")
+
+@app.route("/image", methods=["POST", "GET", "DELETE"])
+def upload():
+    request_data = request.get_json()
+    s3bucket = request_data['s3bucket']['location']
+    img_name = request_data['img_name']
+    img_tags = request_data['img_tags']
+    #neat_url = generator.generate()
+    #return((url, neat_url))
+    print(s3bucket)
+    return(s3bucket, img_name, img_tags)
+
+@app.route("/images", methods=["GET"])
+def multiImage():
+
+
+@app.route("/random", methods=["GET"])
+def randomImage():
+
 """
 @app.route("/login", methods=["POST", "GET"])
 def login():
@@ -22,17 +42,6 @@ def login():
             flash("Already Logged In!")
             return redirect(url_for("user"))
         return render_template("login.html")
-"""
-
-@app.route("/image", methods=["POST"])
-def upload():
-    request_data = request.get_json()
-    s3bucket = request_data['s3bucket']
-    img_name = request_data['img_name']
-    img_tags = request_data['img_tags']
-    print(s3bucket)
-    return(s3bucket)
-
 
 @app.route("/user")
 def user():
@@ -46,6 +55,8 @@ def user():
 def logout():
     session.pop("user", None)
     return redirect(url_for("login"))
+
+"""
 
 if __name__ == "__main__":
     app.run(debug=True)
