@@ -7,7 +7,7 @@ global cursor
 def connectToDatabase():
     global conn
     global cursor
-    conn = sqlite3.connect("images.db")
+    conn = sqlite3.connect("images.db", check_same_thread=False)
     cursor = conn.cursor()
 
 def disconnectFromDatabase():
