@@ -12,7 +12,6 @@ function App() {
   return (
     <Router>
       <div>
-        <nav>
           <ui>
             <li>
               <Link to="/about">About</Link>
@@ -21,7 +20,6 @@ function App() {
               <Link to="/">Home</Link>
             </li>
           </ui>
-        </nav>
 
         <Switch>
           <Route path="/about">
