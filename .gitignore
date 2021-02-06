@@ -3,3 +3,5 @@
 fe/imghost/node_modules/
 
 # BE
+
+be/images.db/
