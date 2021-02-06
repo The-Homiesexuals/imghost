@@ -1,13 +1,12 @@
 import requests
+import io
 from PIL import Image
 from google.cloud import vision
 
 client = vision.ImageAnnotatorClient()
 
-r = requests.get('https://discord.com/channels/807390623996837939/807390714718584832/807728781653180467', stream=True)
-
-image = vision.Image(content=Image.open(r.raw))
-r.close()
+response = requests.get('https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/download.jpg')
+img = vision.Image(content=Image.open(io.BytesIO(response.content)))
 
 response = client.label_detection(image=image)
 labels = response.label_annotations

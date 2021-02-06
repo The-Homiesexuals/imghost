@@ -76,7 +76,7 @@ def addTagsToImage(imageID,tags):
     conn.commit()
     return True
 
-# DELETING
+# DELETING/REMOVING
 def deleteImage(imageID):
     if getImageURL(imageID) == None:
         return False
@@ -84,5 +84,17 @@ def deleteImage(imageID):
     global cursor
     cursor.execute("DELETE FROM image WHERE imageID=\""+imageID+"\"")
     cursor.execute("DELETE FROM image_has_tags WHERE imageID=\""+imageID+"\"")
+    conn.commit()
+    return True
+
+def removeTagsFromImage(imageID, tags):
+    if getImageURL(imageID) == None:
+        raise Exception("Image " + imageID + " does not exist")
+    if len(tags) == 0:
+        return False
+    global conn
+    global cursor
+    for tag in tags:
+        cursor.execute("DELETE FROM image_has_tags WHERE imageID=\""+imageID+"\" AND tagName=\""+tag+"\"")
     conn.commit()
     return True
