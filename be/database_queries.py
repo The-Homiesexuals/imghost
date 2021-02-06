@@ -42,6 +42,12 @@ def getImageTags(imageID):
     result = cursor.fetchall()
     return result
 
+def getAllImages():
+    global cursor
+    cursor.execute("SELECT imageID FROM image")
+    result = cursor.fetchall()
+    return result
+
 def searchImagesByName(name, maxResults=-1):
     global cursor
     cursor.execute("SELECT imageID FROM image WHERE title LIKE \"%"+name+"%\"")

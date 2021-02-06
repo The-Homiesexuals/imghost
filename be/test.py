@@ -27,4 +27,6 @@ print(searchImagesByName("Jug"))
 
 print(searchImagesByTag("Selfie"))
 
+print(getAllImages())
+
 disconnectFromDatabase()
