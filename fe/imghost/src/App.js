@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import About from './About.js'
 import Home  from './Home.js'
+import TestPage from './testpage.js'
 import { 
   Navbar,
   Nav,
@@ -22,6 +23,7 @@ function App() {
         <Route exact path = '/' component={Home}/>
         <Route path = '/about' component={About}/>
         <Route path = '/allimages' component={Home}/>
+        <Route path = '/testpage' component={TestPage} />
       </div>
     </Router>
   );
@@ -45,6 +47,7 @@ function Header() {
         <Nav.Link as = {Link} to='/allimages'>All Images</Nav.Link>
         <Nav.Link as = {Link} to='/about'>About</Nav.Link>
         <Nav.Link as = {Link} to='/image'>Random</Nav.Link>
+        <Nav.Link as = {Link} to='/testpage'>Test Page</Nav.Link>
       </Nav>
     </Navbar>
 
