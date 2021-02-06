@@ -1,0 +1,56 @@
+[
+    {
+        "imageId": "StinkyWalrusPoop",
+        "title": "Bright Sky",
+        "S3_URL": "https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/eric-welch-eRwWGWkh0vU-unsplash.jpg",
+        "tags": ["social"]
+    },
+    {
+        "imageId": "BrightMonkeySong",
+        "title": "Text",
+        "S3_URL": "https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/Screenshot+2021-02-06+121848.png",
+        "tags": ["social","boring"]
+    },{
+        "imageId": "ClownGunShow",
+        "title": "Random Name",
+        "S3_URL": "https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/download.png",
+        "tags": ["other"]
+    },{
+        "imageId": "SpicyCarDoor",
+        "title": "Spooky!",
+        "S3_URL": "https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/ghost.png",
+        "tags": ["social"]
+    },{
+        "imageId": "WackyAmericanFish",
+        "title": "Roo",
+        "S3_URL": "https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/IMG_20160520_164358.jpg",
+        "tags": ["animal"]
+    },
+    {
+        "imageId": "StinkyWalrusPoop1",
+        "title": "Bright Sky",
+        "S3_URL": "https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/eric-welch-eRwWGWkh0vU-unsplash.jpg",
+        "tags": ["social"]
+    },
+    {
+        "imageId": "BrightMonkeySong1",
+        "title": "Text",
+        "S3_URL": "https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/Screenshot+2021-02-06+121848.png",
+        "tags": ["social","boring"]
+    },{
+        "imageId": "ClownGunShow1",
+        "title": "Random Name",
+        "S3_URL": "https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/download.png",
+        "tags": ["other"]
+    },{
+        "imageId": "SpicyCarDoor1",
+        "title": "Spooky!",
+        "S3_URL": "https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/ghost.png",
+        "tags": ["social"]
+    },{
+        "imageId": "WackyAmericanFish1",
+        "title": "Roo",
+        "S3_URL": "https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/IMG_20160520_164358.jpg",
+        "tags": ["animal"]
+    }
+]

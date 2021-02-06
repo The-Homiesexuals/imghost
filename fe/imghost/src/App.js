@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import About from './About.js'
 import Home  from './Home.js'
+import AllImages from './allimages.js'
 import { 
   Navbar,
   Nav,
@@ -21,7 +22,8 @@ function App() {
         <Header />
         <Route exact path = '/' component={Home}/>
         <Route path = '/about' component={About}/>
-        <Route path = '/allimages' component={Home}/>
+        <Route path = '/allimages' component={AllImages}/>
+        <Route path = '/image/:image' component={Home}/>
       </div>
     </Router>
   );
