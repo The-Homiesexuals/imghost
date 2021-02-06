@@ -35,6 +35,12 @@ def getAllImages():
     result = cursor.fetchall()
     return result
 
+def getRandomImage():
+    global cursor
+    cursor.execute("SELECT imageID FROM image ORDER BY RANDOM() LIMIT 1")
+    result = cursor.fetchone()
+    return result[0]
+
 def searchImagesByName(name, maxResults=-1):
     global cursor
     cursor.execute("SELECT imageID FROM image WHERE title LIKE \"%"+name+"%\"")
