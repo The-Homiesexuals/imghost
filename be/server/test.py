@@ -20,7 +20,7 @@ addNewImage("JugJugJug","fsdf","long_link")
 
 addTagsToImage("HASD",["Gamer"])
 #addTagsToImage("dhgfhd",["Gamer","Selfie"])
-addTagsToImage("HASD",["Gamer","Selfie"])
+addTagsToImage("HASD",["Gamer","Selfie","Educational","Balls"])
 addTagsToImage("YamHairGenome",["Style"])
 
 print(searchImagesByName("Jug"))
@@ -33,6 +33,6 @@ print(getImageTags("HASD"))
 removeTagsFromImage("HASD",["Selfie"])
 print(getImageTags("HASD"))
 
-print(getRandomImage())
+print(getImageData("HASD"))
 
 disconnectFromDatabase()

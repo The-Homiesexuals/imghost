@@ -15,6 +15,14 @@ def disconnectFromDatabase():
     conn.close()
 
 # GET/QUERYS
+def getImageData(imageID): # (S3_URL, title, uploadDate, tags[])
+    global conn
+    global cursor
+    cursor.execute("SELECT S3_URL,title,uploadDate FROM image WHERE imageID=\""+imageID+"\"")
+    r = cursor.fetchone()
+    cursor.execute("SELECT tagName FROM image_has_tags WHERE imageID=\""+imageID+"\"")
+    return (r[0],r[1],r[2],list(map(lambda x:x[0], cursor.fetchall())))
+
 def getImageURL(imageID):
     global cursor
     cursor.execute("SELECT S3_URL FROM image WHERE imageID=\""+imageID+"\"")
@@ -63,7 +71,7 @@ def addNewImage(imageID,title,URL):
         raise Exception("Image " + imageID + " already exists")
     global conn
     global cursor
-    cursor.execute("INSERT INTO image VALUES (?,?,?)", (imageID,title,URL))
+    cursor.execute("INSERT INTO image VALUES (?,?,?,datetime('now'))", (imageID,title,URL))
     conn.commit()
     return True
 
