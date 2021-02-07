@@ -1,25 +1,26 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect, useState, useMemo} from 'react';
 import ReactS3 from 'react-s3';
 import keys from './keys.json';
-// import { FileDrop } from 'react-file-drop';
 import { useDropzone } from 'react-dropzone';
 import Gluejar from 'react-gluejar';
 import axios from 'axios';
-import { Image, Container } from 'react-bootstrap';
+import { Container } from 'react-bootstrap';
 
-const headerStyling  = {color: 'var(--secondary)',display:'inline', };
+const textStyling  = {
+  color: 'var(--secondary)',
+  display:'inline',
+  fontSize: '30px'
+};
 const imageDrop = {
   padding: 0,
   margin: 'auto',
-  // textAlign: 'center',
+  borderRadius: '20px',
   backgroundColor: 'var( --ternary)',
   maxWidth: '600px',
   maxHeight: '600px',
   lineHeight: '600px',
   // paddingBottom: '300px', // TODO: Investigate why paddingBottom isn't working
   marginTop: 100,
-  // flexShrink: 1,
-  // backgroundColor: 'red'
 };
 const config = {
   bucketName: 'imghoststoragebucket',
@@ -40,10 +41,21 @@ const dropZone = {
   margin: 'auto',
   height: '200px',
   width: '600px',
-  backgroundColor: 'white',
+  backgroundColor: 'var( --ternary)',
+  borderRadius: '20px',
   lineHeight: '200px', 
   marginBottom: '300px' // TODO: Why isn't anything happening?
+  
 }
+const activeDropZone = {
+
+};
+const acceptDropZone = {
+
+};
+const rejectDropZone = {
+
+};
 
 export default function Test() {
   const [image, setImage] = useState(false);
@@ -53,7 +65,7 @@ export default function Test() {
   }
 
   return (
-    <div style={{textAlign:'center', backgroundColor: 'var( --warning)'}}>
+    <div style={{textAlign:'center'}}>
       <Container style={imageDrop} >
         {image !== false &&
           <img
@@ -77,40 +89,35 @@ export default function Test() {
             {images => {
               if (images.length > 0) {
                 let pic = images[0];
-                console.log('image!');
-                console.log(pic);
                 if (pic === image) {
-                  return <p>Paste your screenshot!</p>;
+                  return (
+                    <p style={textStyling}>Paste your screenshot!</p>);
                 }
                   setImage(images[0]);
-                  return <p>nothing hopefully</p>;
+                  return (<p>The user shouldn't see this haha</p>);
               }
-              return <p>Paste your screenshot!</p>;
-            }
-              // <img src={images[0]} key={images[0]} alt={`Pasted: ${images[0]}`} />
-            }
+              return (<p style={textStyling}>Paste your screenshot!</p>);
+            }}
           </Gluejar>
         }
       </Container>
-      <p> Or Alternatively </p>
-      <div
-        style={dropZone}
-      >
-        <DropZone setIMG={setIMG}/>
-        </div>
+      <p style={textStyling}> Or Alternatively... </p>
+        <DropZone setIMG={setIMG} imageIsStored={image !== false}/>
     </div>
   );
 }
 
 
 
-function DropZone({setIMG}) {
+function DropZone({setIMG, imageIsStored}) {
   const [files, setFiles] = useState([]);
   const {
     getRootProps,
     getInputProps,
+    isDragActive,
     isDragAccept,
-    isDragReject
+    isDragReject,
+    disabled
   } = useDropzone({
     accept: 'image/*',
     onDrop: acceptedFiles => {
@@ -122,19 +129,38 @@ function DropZone({setIMG}) {
         preview: URL.createObjectURL(file)
       })));
     },
-    maxFiles: 1
+    maxFiles: 1,
+    disabled: imageIsStored
   });
+
+  const style = useMemo(() => ({
+    ...dropZone,
+    ...(isDragActive ? activeDropZone : {color: 'var(--ternary)'}),
+    ...(isDragAccept ? acceptDropZone : {}),
+    ...(isDragReject ? rejectDropZone : {})
+  }), [
+    isDragActive,
+    isDragReject,
+    isDragAccept
+  ]);
 
   useEffect(() => () => {
     // Revoke the data uris to avoid memory leaks
     files.forEach(file => URL.revokeObjectURL(file.preview));
   }, [files]);
 
+  // TODO: Set colours if drag was accepted or rejected.
+  // Look into disabling dragbox
   return (
     <section className="container">
-      <div {...getRootProps({className: 'dropzone'})}>
+      <div style={style} {...getRootProps({className: 'dropzone'})}>
         <input {...getInputProps()} />
-        <p>Drag and drop, or click to select files</p>
+        <p style={{...textStyling, ...(isDragActive ? {color: 'green'}: {})}}>
+          {isDragActive ? 'Let\'s see it!' :
+              isDragAccept ? 'Image Accepted' :
+                isDragReject ? 'Image Rejected' :
+                  'Drag and drop, or click to select files'}
+        </p>
       </div>
     </section>
   );
