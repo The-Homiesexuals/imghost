@@ -16,4 +16,3 @@ def generateImageTags(URL):
 
 if __name__ == "__main__":
     print(generateImageTags('https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/eric-welch-eRwWGWkh0vU-unsplash.jpg'))
-    # Image is Master cheif helmet wallpaper
