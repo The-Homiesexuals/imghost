@@ -5,9 +5,11 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import About from './About.js'
-import Home  from './Home.js'
-import AllImages from './allimages.js'
+import AllImages from './allimages.js';
+import About from './About.js';
+import Home  from './Home.js';
+import ImagePage from './Image.js';
+import TestPage from './testpage.js';
 import { 
   Navbar,
   Nav,
@@ -23,7 +25,8 @@ function App() {
         <Route exact path = '/' component={Home}/>
         <Route path = '/about' component={About}/>
         <Route path = '/allimages' component={AllImages}/>
-        <Route path = '/image/:image' component={Home}/>
+        <Route path = '/image/:imageId' component={ImagePage}/>
+        <Route path = '/testpage' component={TestPage} />
       </div>
     </Router>
   );
@@ -39,7 +42,6 @@ function Header() {
           width="30"
           height="30"
           className="d-inline-block align-top"
-          alt="ImGhost Logo"
         />
         ImGhost
       </Navbar.Brand>
@@ -47,6 +49,7 @@ function Header() {
         <Nav.Link as = {Link} to='/allimages'>All Images</Nav.Link>
         <Nav.Link as = {Link} to='/about'>About</Nav.Link>
         <Nav.Link as = {Link} to='/image'>Random</Nav.Link>
+        <Nav.Link as = {Link} to='/testpage'>Test Page</Nav.Link>
       </Nav>
     </Navbar>
 

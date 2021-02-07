@@ -1,16 +1,3 @@
-
-# List all images and their tags
-# SELECT title,tagName FROM image JOIN image_has_tags WHERE image.imageID=image_has_tags.imageID;
-
-# List all tags of an image "searchImageName"
-# SELECT tagName FROM image_has_tags WHERE image_has_tags.imageID="searchImageName";
-
-# List all imageIDs of images with tag "searchTagName"
-# SELECT imageID FROM image_has_tags WHERE image_has_tags.tagName="searchTagName";
-
-# List all image names of images with tag "searchTagName"
-# SELECT title FROM image JOIN image_has_tags WHERE image_has_tags.imageID=image.imageID AND tagName="searchTagName";
-
 import sqlite3
 
 global conn
@@ -20,7 +7,7 @@ global cursor
 def connectToDatabase():
     global conn
     global cursor
-    conn = sqlite3.connect("images.db")
+    conn = sqlite3.connect("images.db", check_same_thread=False)
     cursor = conn.cursor()
 
 def disconnectFromDatabase():
@@ -47,6 +34,12 @@ def getAllImages():
     cursor.execute("SELECT imageID FROM image")
     result = cursor.fetchall()
     return result
+
+def getRandomImage():
+    global cursor
+    cursor.execute("SELECT imageID FROM image ORDER BY RANDOM() LIMIT 1")
+    result = cursor.fetchone()
+    return result[0]
 
 def searchImagesByName(name, maxResults=-1):
     global cursor
@@ -89,7 +82,7 @@ def addTagsToImage(imageID,tags):
     conn.commit()
     return True
 
-# DELETING
+# DELETING/REMOVING
 def deleteImage(imageID):
     if getImageURL(imageID) == None:
         return False
@@ -97,5 +90,17 @@ def deleteImage(imageID):
     global cursor
     cursor.execute("DELETE FROM image WHERE imageID=\""+imageID+"\"")
     cursor.execute("DELETE FROM image_has_tags WHERE imageID=\""+imageID+"\"")
+    conn.commit()
+    return True
+
+def removeTagsFromImage(imageID, tags):
+    if getImageURL(imageID) == None:
+        raise Exception("Image " + imageID + " does not exist")
+    if len(tags) == 0:
+        return False
+    global conn
+    global cursor
+    for tag in tags:
+        cursor.execute("DELETE FROM image_has_tags WHERE imageID=\""+imageID+"\" AND tagName=\""+tag+"\"")
     conn.commit()
     return True
