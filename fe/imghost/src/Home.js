@@ -1,11 +1,12 @@
 import React, {useEffect, useState, useMemo} from 'react';
-import ReactS3 from 'react-s3';
+import S3 from 'react-aws-s3';
 import keys from './keys.json';
 import { useDropzone } from 'react-dropzone';
+import { useHistory } from 'react-router-dom';
 import Gluejar from 'react-gluejar';
 import axios from 'axios';
-import { Container, Form, Row, Col } from 'react-bootstrap';
-import { Button } from 'react-bootstrap';
+import { v4 as uuidv4 } from 'uuid';
+import { Button, Container, Form, Col } from 'react-bootstrap';
 
 const textStyling  = {
   marginTop: '40px',
@@ -41,6 +42,8 @@ const dropZone = {
   width: '600px',
   backgroundColor: 'var( --ternary)',
   borderRadius: '20px',
+  borderWidth: '2px',
+  borderColor: 'white',
   lineHeight: '200px', 
   marginBottom: '300px' // TODO: Why isn't anything happening?
 };
@@ -48,24 +51,12 @@ const dropZone = {
 const activeDropZone = {
 
 };
-const acceptDropZone = {
-
-};
-const rejectDropZone = {
-
-};
-const disabledDropZone = {
-
-}
 
 export default function Home() {
   const [image, setImage] = useState(false);
-
   const setIMG = function(newImage){
     setImage(newImage);
   }
-
-  console.log('image is stored', image !== false);
 
   return (
     <div style={{textAlign:'center'}}>
@@ -105,53 +96,63 @@ export default function Home() {
       </Container>
       <p style={textStyling}> {image === false  ? 'Or Alternatively...' : ''} </p>
         { image === false ?
-          <DropZone setIMG={setIMG} imageIsStored={image !== false} /> :
-          <Upload />
+          <DropZone setIMG={setIMG}/> :
+          <Upload image={image} />
         }
     </div>
   );
 }
 
-function Upload() {
+function Upload({image}) {
 
   const [name,setName] = useState('');
   const [tags,setTags] = useState('');
 
+  async function handleUpload(name, tags) {
+    const file = await fetch(image).then( r=> r.blob());
 
-  function handleUpload(event) {
-    console.log(event.target.files[0])
-    alert(name+' '+tags);
-    ReactS3.uploadFile(event.target.files[0],config).then((data)=>{
-      console.log(data);
+    const ReactS3Client = new S3(config);
+    
+    const randID = uuidv4();
+    let res;
+    try {
+      res = await ReactS3Client.uploadFile(file, randID);
+      console.log(res);
+    }
+    catch (e) {
+      alert('Something went wrong uploading, please try again.');
+      return;
+    }
 
       //#IMPORTANT: replace path to server with application you're testing
-      axios({
-        method: 'post',
-        url: 'http://127.0.0.1:5000/image',
-        data: {
-          s3bucket : data,
-          img_name : name,
-          img_tags : tags,
-        },
-        headers: {
-          'Access-Control-Allow-Origin': '*'
-        }
-      }).then(function (res) {
-        console.log(res);
-      })
-      .catch((err) => {
-        alert(err);
-      });
-
-    })
-    .catch((err)=>{
-      alert(err);
-    })
+      let serverRes;
+      
+      try {
+        serverRes= await axios({
+          method: 'post',
+          url: 'http://127.0.0.1:5000/image',
+          data: {
+            s3bucket : res,
+            img_name : name,
+            img_tags : tags,
+          },
+          headers: {
+            'Access-Control-Allow-Origin': '*'
+          }
+        });
+        console.log(serverRes);
+      } catch(e) {
+        alert('Something went wrong uploading, please try again.');
+      }
+      // TODO: Re-direct to new URL/${serverRes}
   }
-
+  
   return (
       <Form
-        onSubmit={event=> console.log(event)}
+        onSubmit={event=> {
+          event.preventDefault();
+          handleUpload(name, tags);
+        }}
         style={{marginTop: '20px', marginBottom: '100px'}}
       >
           <p style={{...textStyling, lineHeight: '80px'}}>
@@ -162,31 +163,31 @@ function Upload() {
           style={{marginBottom: '10px'}}
         >
           <Col md='auto'>
-            <Form.Control placeholder='Image Name' />
+            <Form.Control onInput={val=> {setName(val.target.value)}} placeholder='Image Name' />
           </Col>
-          <Col md='auto'>
-            <Form.Control placeholder='Image Tags (separate with commas)' />
+          <Col lg='2'>
+            <Form.Control onInput={val=> {setTags(val.target.value)}} placeholder='Image Tags (separate with commas)' />
           </Col>
         </Form.Row>
         <Form.Row className='justify-content-md-center'>
-          <Button type='submit'>
-            Submit Online
+          <Button 
+            style={{backgroundColor: 'var( --warning)'}}
+            type='submit'
+          >
+            <p
+              style={{...textStyling, color: 'var( --primary)',
+              }}
+            >
+              Submit Online
+            </p>
           </Button>
         </Form.Row>
-      {/* <form>
-        <label style={textStyling}>Name:</label><br/>
-        <input type='text' value={name} onChange={e => setName(e.target.value)}  /><br/>
-        <label style={textStyling}>Tags:</label><br/>
-        <input type='text' value={tags} onChange={e => setTags(e.target.value)}/><br/><br/>
-      </form> */}
-        {/* <input type='file' onChange={handleUpload}/> */}
       </Form>
   )
 }
 
-function DropZone({setIMG, imageIsStored}) {
+function DropZone({setIMG}) {
   const [files, setFiles] = useState([]);
-  console.log('prop for dropzone', imageIsStored);
   const {
     getRootProps,
     getInputProps,
@@ -207,14 +208,8 @@ function DropZone({setIMG, imageIsStored}) {
 
   const style = useMemo(() => ({
     ...dropZone,
-    ...(isDragActive ? activeDropZone : {color: 'var(--ternary)'}),
-    ...(isDragAccept ? acceptDropZone : {}),
-    ...(isDragReject ? rejectDropZone : {}),
-  }), [
-    isDragActive,
-    isDragReject,
-    isDragAccept,
-  ]);
+    ...(isDragActive ? activeDropZone : {color: 'var(--ternary)', borderColor: 'green', borderWidth: '2px 2px 2px 2px'}),
+  }), [isDragActive]);
 
   useEffect(() => () => {
     // Revoke the data uris to avoid memory leaks

@@ -1,5 +1,5 @@
 import React, {useEffect, useState, useMemo} from 'react';
-import ReactS3 from 'react-s3';
+// import ReactS3 from 'react-s3';
 import keys from './keys.json';
 // import { useDropzone } from 'react-dropzone';
 // import Gluejar from 'react-gluejar';
@@ -8,59 +8,59 @@ import axios from 'axios';
 
 export default function Test() {
   return (
-    <FileUpload></FileUpload>
+    <div></div>
   );
 }
 
-function FileUpload() {
+// function FileUpload() {
 
-  const [name,setName] = useState("");
-  const [tags,setTags] = useState("");
+//   const [name,setName] = useState("");
+//   const [tags,setTags] = useState("");
 
 
-  function handleUpload(event) {
-    console.log(event.target.files[0])
-    alert(name+" "+tags)
-    ReactS3.uploadFile(event.target.files[0],config).then((data)=>{
-      console.log(data);
+//   function handleUpload(event) {
+//     console.log(event.target.files[0])
+//     alert(name+" "+tags)
+//     ReactS3.uploadFile(event.target.files[0],config).then((data)=>{
+//       console.log(data);
 
-      //#IMPORTANT: replace path to server with application you're testing
-      axios({
-        method: 'post',
-        url: 'http://127.0.0.1:5000/image',
-        data: {
-          s3bucket : data,
-          img_name : name,
-          img_tags : tags,
-        },
-        headers: {
-          "Access-Control-Allow-Origin": "*"
-        }
-      }).then(function (res) {
-        console.log(res);
-      })
-      .catch((err) => {
-        alert(err);
-      });
+//       //#IMPORTANT: replace path to server with application you're testing
+//       axios({
+//         method: 'post',
+//         url: 'http://127.0.0.1:5000/image',
+//         data: {
+//           s3bucket : data,
+//           img_name : name,
+//           img_tags : tags,
+//         },
+//         headers: {
+//           "Access-Control-Allow-Origin": "*"
+//         }
+//       }).then(function (res) {
+//         console.log(res);
+//       })
+//       .catch((err) => {
+//         alert(err);
+//       });
 
-    })
-    .catch((err)=>{
-      alert(err);
-    })
-  }
+//     })
+//     .catch((err)=>{
+//       alert(err);
+//     })
+//   }
 
-  return (
-    <div id='upload-box'>
-      <form>
-        <label>Name:</label><br/>
-        <input type="text" value={name} onChange={e => setName(e.target.value)}  /><br/>
-        <label>Tags:</label><br/>
-        <input type="text" value={tags} onChange={e => setTags(e.target.value)}/><br/><br/>
-        <input type="file" onChange={handleUpload}/>
-      </form>
-    </div>
-  )
-}
+//   return (
+//     <div id='upload-box'>
+//       <form>
+//         <label>Name:</label><br/>
+//         <input type="text" value={name} onChange={e => setName(e.target.value)}  /><br/>
+//         <label>Tags:</label><br/>
+//         <input type="text" value={tags} onChange={e => setTags(e.target.value)}/><br/><br/>
+//         <input type="file" onChange={handleUpload}/>
+//       </form>
+//     </div>
+//   )
+// }
 
 // const textStyling  = {
 //   marginTop: '40px',
