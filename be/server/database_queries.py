@@ -59,7 +59,7 @@ def searchImagesByName(name, maxResults=-1):
 
 def searchImagesByTag(tag, maxResults=-1):
     global cursor
-    cursor.execute("SELECT imageID FROM image_has_tags WHERE tagName=\""+tag+"\"")
+    cursor.execute("SELECT imageID FROM image_has_tags WHERE UPPER(tagName) LIKE \"%UPPER("+tag+")%\"")
     if maxResults == -1:
         return cursor.fetchall()
     return cursor.fetchmany(maxResults)
@@ -68,7 +68,7 @@ def searchImagesByTags(tags, maxResults=-1):
     global cursor
     results = set()
     for tag in tags:
-        cursor.execute("SELECT imageID FROM image_has_tags WHERE tagName=\""+tag+"\"")
+        cursor.execute("SELECT imageID FROM image_has_tags WHERE UPPER(tagName) LIKE \"%UPPER("+tag+")%\"")
         for id in cursor.fetchall():
             results.add(id)
     return list(results)
