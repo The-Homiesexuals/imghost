@@ -1,5 +1,5 @@
 import './allimages.css'
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Grid, Row, Col, Container, Card} from 'react-bootstrap';
 import images from './images.json' //TODO: Remove before final and replace with server call
 import {useState} from 'react';
@@ -9,6 +9,7 @@ import {
     Route,
     Link
   } from "react-router-dom";
+import axios from 'axios';
 const HeaderStyling  = {'color': 'var(--secondary)'};
 
 
@@ -40,7 +41,19 @@ function AllImages() {
 
     const [hovered, setHovered] = useState(false);
     const [hoveredID, setHoveredId] = useState("");
+    const [images, setImages] = useState([]);
 
+    useEffect(() => {
+        axios({
+            method: 'get',
+            url: 'http://127.0.0.1:5000/images/',
+            response: 'json'
+        }).then(function(response){
+            setImages(response.data.images);
+        }).catch(function(error) {
+            alert("There was a problem fetching the images!")
+        });
+    });
 
     return (
         <div>
