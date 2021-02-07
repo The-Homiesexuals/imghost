@@ -14,26 +14,23 @@ const HeaderStyling  = {'color': 'var(--secondary)'};
 const cardImage = {
     objectFit: 'cover',
     width: 'auto',
-    height: '30vh'
+    height: '30vh',
+    borderRadius:'10px'
 }
 
 const cardStyle = {
     width: '18rem',
     textAlign:'center',
-    cursor:'pointer'
+    cursor:'pointer',
+    borderRadius:'10px'
 }
 
 const hoveredCardStyle = {
     width: '18rem',
     textAlign:'center',
-    backgroundColor: 'red'
+    backgroundColor: 'red',
+    borderRadius:'10px'
 }
-// Card:
-// S3 URL (Internal)
-// Title
-// Tags
-// External url
-// Date - Not needed for this
 
 function AllImages() {
 
@@ -73,7 +70,7 @@ function AllImages() {
                                     <Card.Body style={{alignItems:'center'}}>
                                         <Card.Title style={{alignItems:'center'}}>{imageTemp.title}</Card.Title>
                                         <Card.Text>
-                                            {imageTemp.tags}
+                                            {imageTemp.tags && imageTemp.tags.toString().replace(/,/g, ', ')}
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
