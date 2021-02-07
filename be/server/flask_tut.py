@@ -39,6 +39,7 @@ def upload():
 @app.route("/image/<imageId>", methods=["GET", "DELETE"])
 def fetchDelete(imageId):
     if request.method == "GET":
+        #print("Here is thingy ->", imageId)
         image_found = database_queries.getImageData(imageId)
         print(image_found)
 
@@ -56,15 +57,29 @@ def fetchDelete(imageId):
          json_dict = {
              "S3_URL": image_found
          }
-         return(json.dump(json_dict))
+         return(json.dumps(json_dict))
 
-@app.route("/images", methods=["GET"])
+@app.route("/images/", methods=["GET"])
 def multiImage():
-    images_found = database_queries.getAllImages(find_image)
-    json_dict = {
-        "img_urls": images_found
+    images_found = database_queries.getAllImages()
+    print(images_found)
+    json_list = []
+    for i in images_found:
+        image_found = database_queries.getImageData(i[0])
+        json_dict1 = {
+            "S3_URL": image_found[0],
+            "title": image_found[1],
+            "date": image_found[2],
+            "tags": image_found[3],
+            "imageId": i[0]
+        }
+        json_list.append(json_dict1)
+
+    json_dict2 = {
+        "images": json_list
     }
-    return(json.dump(json_dict))
+    print(json_dict2)
+    return(json.dumps(json_dict2))
 
 @app.route("/random", methods=["GET"])
 def randomImage():

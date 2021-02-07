@@ -2,8 +2,8 @@ import sqlite3
 
 # Sample data
 images = [
-    ("WalrusTomatoBaby", "gamer pic", "https://www.google.com/search?q=gamer+pic&rlz=1C1CHBF_enCA837CA839&sxsrf=ALeKk000C8TOOoCam3ZgIGtF4ifgGCzjvg:1612583280016&source=lnms&tbm=isch&sa=X&ved=2ahUKEwjvtc3srNTuAhXFZs0KHbzRDL4Q_AUoAXoECBUQAw&biw=1857&bih=977#imgrc=H4H8t7TbOZhvdM"),
-    ("GoatBallFooter", "PHIL 1001 Notes Diagram A", "https://www.google.com/url?sa=i&url=https%3A%2F%2Fcarleton.ca%2Fphilosophy%2Fpeople%2Fphilippe-antoine-hoyeck%2F&psig=AOvVaw2KAZSF2W2fvceDXa0C2OBR&ust=1612670298516000&source=images&cd=vfe&ved=0CAIQjRxqFwoTCIj_oJSv1O4CFQAAAAAdAAAAABAf")
+    ("WalrusTomatoBaby", "Also cute doggo", "https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/eric-welch-eRwWGWkh0vU-unsplash.jpg"),
+    ("GoatBallFooter", "Cute Doggo", "https://images-ext-1.discordapp.net/external/YeYPrDAmgl3KMiv-OgyDbVsmo4ehvqiIeVQHpOBiRkw/https/imghoststoragebucket.s3.ca-central-1.amazonaws.com/IMG_20160520_164358.jpg?width=676&height=676")
 ]
 
 tags = [

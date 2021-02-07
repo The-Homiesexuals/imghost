@@ -18,19 +18,19 @@ const cardImage = {
 }
 
 const cardStyle = {
-    width: '18rem', 
-    textAlign:'center', 
+    width: '18rem',
+    textAlign:'center',
     cursor:'pointer'
 }
 
 const hoveredCardStyle = {
-    width: '18rem', 
+    width: '18rem',
     textAlign:'center',
     backgroundColor: 'red'
 }
 // Card:
 // S3 URL (Internal)
-// Title 
+// Title
 // Tags
 // External url
 // Date - Not needed for this
@@ -50,8 +50,8 @@ function AllImages() {
             setImages(response.data.images);
         }).catch(function(error) {
             alert("There was a problem fetching the images!")
-        },[]);
-    });
+        });
+    },[]);
 
     return (
         <div>
@@ -63,11 +63,11 @@ function AllImages() {
                                 <Link to={`/image/${imageTemp.imageId}`}>
                                 <Card
                                     id = {imageTemp.imageId}
-                                    className="my-5" 
-                                    style={(hovered && hoveredID===imageTemp.imageId) ? hoveredCardStyle : cardStyle} 
+                                    className="my-5"
+                                    style={(hovered && hoveredID===imageTemp.imageId) ? hoveredCardStyle : cardStyle}
                                     onMouseEnter={() => {
                                         setHovered(true)
-                                        setHoveredId(imageTemp.imageId)}} 
+                                        setHoveredId(imageTemp.imageId)}}
                                     onMouseLeave={() => setHovered(false)}>
                                     <Card.Img variant="card-img-top" style = {cardImage} src={imageTemp.S3_URL} />
                                     <Card.Body style={{alignItems:'center'}}>
@@ -79,7 +79,7 @@ function AllImages() {
                                 </Card>
                                 </Link>
                             </Col >))
-                    }       
+                    }
                 </Row>
             </Container>
         </div>
