@@ -1,6 +1,5 @@
 import requests
 import io
-from PIL import Image
 from google.cloud import vision
 
 client = vision.ImageAnnotatorClient.from_service_account_file('./vision_api_key.json')
