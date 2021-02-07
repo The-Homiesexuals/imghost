@@ -56,6 +56,9 @@ const acceptDropZone = {
 const rejectDropZone = {
 
 };
+const disabledDropZone = {
+  
+}
 
 export default function Test() {
   const [image, setImage] = useState(false);
@@ -138,6 +141,7 @@ function DropZone({setIMG, imageIsStored}) {
     ...(isDragActive ? activeDropZone : {color: 'var(--ternary)'}),
     ...(isDragAccept ? acceptDropZone : {}),
     ...(isDragReject ? rejectDropZone : {})
+    ...(disabled     ? disabledDropZone : {})
   }), [
     isDragActive,
     isDragReject,
