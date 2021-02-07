@@ -79,11 +79,12 @@ def multiImage():
 
 @app.route("/random", methods=["GET"])
 def randomImage():
-    image_found = database_queries.getRandImage(find_image)
+    image_found = database_queries.getRandomImage()
+    print("Image Found: ",image_found)
     json_dict = {
         "img_url": image_found
     }
-    return(json.dump(json_dict))
+    return(json.dumps(json_dict))
 
 
 """

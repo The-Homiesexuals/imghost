@@ -33,7 +33,7 @@ export default function ImagePage() {
         //Here is where we parse server api for GET image with URL input 
         axios({
             method: 'get',
-            url: `http://127.0.0.1:5000/image/${imageId}`,
+            url: `/image/${imageId}`,
             response: 'json'
         }).then(function(response){
             setImage(response.data);

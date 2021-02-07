@@ -43,7 +43,7 @@ function FileUpload() {
       //#IMPORTANT: replace path to server with application you're testing
       axios({
         method: 'post',
-        url: 'http://127.0.0.1:5000/image',
+        url: '/image',
         data: {
           s3bucket : data,
           img_name : name,

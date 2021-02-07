@@ -1,9 +1,10 @@
 import './App.css';
 import {
   BrowserRouter as Router,
-  Switch,
+  useHistory,
   Route,
-  Link
+  Link,
+  Redirect
 } from "react-router-dom";
 import AllImages from './AllImages.js';
 import About from './About.js';
@@ -12,10 +13,9 @@ import ImagePage from './Image.js';
 import TestPage from './testpage.js';
 import { 
   Navbar,
-  Nav,
-  Col,
-  Image
+  Nav
 } from 'react-bootstrap'
+import {Get} from 'react-axios';
 
 function App() {
   return (
@@ -26,6 +26,7 @@ function App() {
         <Route path = '/about' component={About}/>
         <Route path = '/allimages' component={AllImages}/>
         <Route path = '/image/:imageId' component={ImagePage}/>
+        <Route path = '/random' component={Random}/>
         <Route path = '/testpage' component={TestPage} />
       </div>
     </Router>
@@ -48,12 +49,31 @@ function Header() {
       <Nav className="mr-auto">
         <Nav.Link as = {Link} to='/allimages'>All Images</Nav.Link>
         <Nav.Link as = {Link} to='/about'>About</Nav.Link>
-        <Nav.Link as = {Link} to='/image'>Random</Nav.Link>
+        <Nav.Link as = {Link} to='/random'>Random</Nav.Link>
         <Nav.Link as = {Link} to='/testpage'>Test Page</Nav.Link>
       </Nav>
     </Navbar>
 
   );
 };
+
+function Random() {
+  return (
+    <Get url='http://127.0.0.1:5000/random'>
+      {(error, response, isLoading, makeRequest, axios) => {
+          if(error) {
+            return (<div>Something bad happened: {error.message} <button onClick={() => makeRequest({ params: { reload: true } })}>Retry</button></div>)
+          }
+          else if(isLoading) {
+            return (<div>Loading...</div>)
+          }
+          else if(response !== null) {
+            return (<Redirect to={`/image/${response.data.img_url}`}/>)
+          }
+          return (<div>Default message before request is made.</div>)
+          }}
+    </Get>
+  )
+};  
 
 export default App;
