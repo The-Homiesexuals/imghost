@@ -100,7 +100,7 @@ function Random() {
 }; 
 
 async function Search_Images(query) {
-  let splitVals = query.split(" ")
+  let splitVals = query.split(", ");
   let qString = queryString.stringify({tag:splitVals},{arrayFormat:'index'})
   try {
     let res = await axios({
