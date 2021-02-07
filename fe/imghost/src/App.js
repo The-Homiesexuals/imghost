@@ -7,7 +7,6 @@ import {
   useHistory
 } from "react-router-dom";
 import AllImages from './AllImages.js';
-import About from './About.js';
 import Home  from './Home.js';
 import ImagePage from './Image.js';
 import Search from './Search.js'
@@ -30,7 +29,6 @@ function App() {
         <Header />
 
         <Route exact path = '/' component={Home}/>
-        <Route path = '/about' component={About}/>
         <Route path = '/allimages' component={AllImages}/>
         <Route path = '/image/:imageId' component={ImagePage}/>
         <Route path = '/search' component={Search}/>
@@ -63,7 +61,6 @@ function Header() {
       </Navbar.Brand>
       <Nav className="mr-auto">
         <Nav.Link as = {Link} to='/allimages'>All Images</Nav.Link>
-        <Nav.Link as = {Link} to='/about'>About</Nav.Link>
         <Nav.Link as = {Link} to='/random'>Random</Nav.Link>
       </Nav>
       <Form inline onSubmit={async event=> {
