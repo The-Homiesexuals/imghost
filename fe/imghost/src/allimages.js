@@ -1,7 +1,6 @@
 import './allimages.css'
 import React, { useEffect } from 'react';
 import { Grid, Row, Col, Container, Card} from 'react-bootstrap';
-import images from './images.json' //TODO: Remove before final and replace with server call
 import {useState} from 'react';
 import {
     BrowserRouter as Router,
