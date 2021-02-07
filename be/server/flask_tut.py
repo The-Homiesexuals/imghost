@@ -27,7 +27,7 @@ def upload():
     imageId = generator.generate()
     #return((url, neat_url))
     database_queries.addNewImage(imageId, title, S3_URL)
-    database_queries.addTagsToImage(imageId, ML_Tags.generateImageTags(S3_URL))
+    database_queries.addTagsToImage(imageId, tags.split(',') + ML_Tags.generateImageTags(S3_URL))
     #print(s3bucket, title, tags, imageId)
     json_dict = {
         "s3bucket": s3bucket,
