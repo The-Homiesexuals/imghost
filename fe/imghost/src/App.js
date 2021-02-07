@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 import About from './About.js'
 import Home  from './Home.js'
+import ImagePage from './Image.js'
 import { 
   Navbar,
   Nav,
@@ -22,6 +23,7 @@ function App() {
         <Route exact path = '/' component={Home}/>
         <Route path = '/about' component={About}/>
         <Route path = '/allimages' component={Home}/>
+        <Route path = '/image/:imageId' component={ImagePage}/>
       </div>
     </Router>
   );
@@ -37,7 +39,6 @@ function Header() {
           width="30"
           height="30"
           className="d-inline-block align-top"
-          alt="ImGhost Logo"
         />
         ImGhost
       </Navbar.Brand>
