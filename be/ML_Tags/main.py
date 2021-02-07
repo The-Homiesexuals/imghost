@@ -5,8 +5,9 @@ from google.cloud import vision
 
 client = vision.ImageAnnotatorClient()
 
-response = requests.get('https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/download.jpg')
-img = vision.Image(content=Image.open(io.BytesIO(response.content)))
+r = requests.get('https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/download.jpg', stream=True)
+
+image = vision.Image(content=r.raw.read())
 
 response = client.label_detection(image=image)
 labels = response.label_annotations
