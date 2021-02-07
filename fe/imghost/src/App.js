@@ -1,7 +1,6 @@
 import './App.css';
 import {
   BrowserRouter as Router,
-  useHistory,
   Route,
   Link,
   Redirect
@@ -10,7 +9,6 @@ import AllImages from './AllImages.js';
 import About from './About.js';
 import Home  from './Home.js';
 import ImagePage from './Image.js';
-import TestPage from './testpage.js';
 import { 
   Navbar,
   Nav
@@ -22,12 +20,12 @@ function App() {
     <Router>
       <div>
         <Header />
+
         <Route exact path = '/' component={Home}/>
         <Route path = '/about' component={About}/>
         <Route path = '/allimages' component={AllImages}/>
         <Route path = '/image/:imageId' component={ImagePage}/>
         <Route path = '/random' component={Random}/>
-        <Route path = '/testpage' component={TestPage} />
       </div>
     </Router>
   );
@@ -35,7 +33,9 @@ function App() {
 
 function Header() {
   return (
-    <Navbar className="navStyle"  variant="dark">
+    <Navbar 
+      style={{color: '#F8F8F8'}}
+      className="navStyle"  variant="dark" sticky='top'>
       <Navbar.Brand as = {Link} to='/'>
         <img
           style={{marginRight:10}}
@@ -43,6 +43,7 @@ function Header() {
           width="30"
           height="30"
           className="d-inline-block align-top"
+          alt=''
         />
         ImGhost
       </Navbar.Brand>
@@ -50,7 +51,6 @@ function Header() {
         <Nav.Link as = {Link} to='/allimages'>All Images</Nav.Link>
         <Nav.Link as = {Link} to='/about'>About</Nav.Link>
         <Nav.Link as = {Link} to='/random'>Random</Nav.Link>
-        <Nav.Link as = {Link} to='/testpage'>Test Page</Nav.Link>
       </Nav>
     </Navbar>
 

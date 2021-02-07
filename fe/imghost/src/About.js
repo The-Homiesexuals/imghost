@@ -1,11 +1,10 @@
 import React from 'react';
 
-function About() {
-    return (
-        <div>
-            <h1>ABOUT PAGE</h1>
-        </div>
-    )
+export default function About() {
+  return (
+    <div>
+      <p style={{ color: 'var( --secondary)'}}>
+      ABOUT PAGE</p>
+    </div>
+  );
 };
-
-export default About;

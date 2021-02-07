@@ -1,7 +1,11 @@
 // // Override default variables before the import
 
 
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@600&display=swap');
+
 $body-bg: var(--primary);
+$font-family-base: var( --font-family-temp);
+
 
 // // Import Bootstrap and its default variables
 @import '~bootstrap/scss/bootstrap.scss';
@@ -22,11 +26,12 @@ $body-bg: var(--primary);
   --gray-dark: #343a40;
   --primary: #201335;
   --secondary: #F76F8E;
+  --ternary: #6E75A8;
   --success: #28a745;
   --info: #17a2b8;
   --warning: #ffc107;
   --danger: #dc3545;
-  --light: #f8f9fa;
+  --light: #F8F8F8;
   --dark: #343a40;
   --breakpoint-xs: 0;
   --breakpoint-sm: 576px;
@@ -35,4 +40,5 @@ $body-bg: var(--primary);
   --breakpoint-xl: 1200px;
   --font-family-sans-serif: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   --font-family-monospace: SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  --font-family-temp: "Nunito";
 }
