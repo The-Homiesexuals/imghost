@@ -3,17 +3,25 @@ import {
   BrowserRouter as Router,
   Route,
   Link,
-  Redirect
+  Redirect,
+  useHistory
 } from "react-router-dom";
 import AllImages from './AllImages.js';
 import About from './About.js';
 import Home  from './Home.js';
 import ImagePage from './Image.js';
+import Search from './Search.js'
 import { 
   Navbar,
-  Nav
+  Nav,
+  Form,
+  FormControl,
+  Button
 } from 'react-bootstrap'
 import {Get} from 'react-axios';
+import {useState} from 'react';
+import axios from 'axios';
+const queryString = require('query-string');
 
 function App() {
   return (
@@ -25,6 +33,7 @@ function App() {
         <Route path = '/about' component={About}/>
         <Route path = '/allimages' component={AllImages}/>
         <Route path = '/image/:imageId' component={ImagePage}/>
+        <Route path = '/search' component={Search}/>
         <Route path = '/random' component={Random}/>
       </div>
     </Router>
@@ -32,6 +41,11 @@ function App() {
 }
 
 function Header() {
+  const[search,setSearch] = useState("");
+  const[qString,setqString] = useState("");
+  const[res,setRes] = useState("");
+  const history = useHistory();
+
   return (
     <Navbar 
       style={{color: '#F8F8F8'}}
@@ -39,7 +53,6 @@ function Header() {
       <Navbar.Brand as = {Link} to='/'>
         <img
           style={{marginRight:10}}
-          //src="ghost-inverted.png"
           src={process.env.PUBLIC_URL + '/ghost-inverted.png'}
           width="30"
           height="30"
@@ -53,6 +66,18 @@ function Header() {
         <Nav.Link as = {Link} to='/about'>About</Nav.Link>
         <Nav.Link as = {Link} to='/random'>Random</Nav.Link>
       </Nav>
+      <Form inline onSubmit={async event=> {
+          event.preventDefault();
+          const [qs,r] = await Search_Images(search);
+          setSearch("")
+          history.push({
+            pathname:'/search',
+            search: '?'+qs,
+            state : { images: r}
+          })}}>
+        <FormControl type="text" placeholder="Search Tags" className="mr-sm-2" value={search} onChange={val=> {setSearch(val.target.value);}}/>
+        <Button type="submit">Search</Button>
+      </Form>
     </Navbar>
 
   );
@@ -75,6 +100,29 @@ function Random() {
           }}
     </Get>
   )
-};  
+}; 
+
+async function Search_Images(query) {
+  let splitVals = query.split(" ")
+  let qString = queryString.stringify({tag:splitVals},{arrayFormat:'index'})
+  try {
+    let res = await axios({
+      method: 'get',
+      url: '/search?'+qString,
+      response: 'json',
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+        'Access-Control-Allow-Methods': 'GET, POST, OPTIONS, PUT, PATCH, DELETE',
+        "Access-Control-Allow-Headers": "x-access-token, Origin, X-Requested-With, Content-Type, Accept"
+      }
+    });
+    return [qString,res.data.images];
+  } catch(err) {
+    alert("There was a problem fetching the images!")
+    console.log(err)
+    return "ERROR"
+  }
+
+}
 
 export default App;

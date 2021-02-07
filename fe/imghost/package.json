@@ -12,6 +12,7 @@
     "bootstrap": "^4.6.0",
     "json-loader": "^0.5.7",
     "node-sass": "^5.0.0",
+    "query-string": "^6.13.8",
     "react": "^17.0.1",
     "react-aws-s3": "^1.4.0",
     "react-axios": "^2.0.4",
