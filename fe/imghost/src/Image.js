@@ -25,11 +25,11 @@ export default function ImagePage() {
             url: `http://127.0.0.1:5000/image/${imageId}`,
             response: 'json'
         }).then(function(response){
-            setImage(response);
+            setImage(response.data);
         }).catch(function(error) {
             alert("There was a problem fetching the image!")
         });
-     });
+     },[]);
 
     return (
       <div>
@@ -45,7 +45,7 @@ export default function ImagePage() {
                         <Container >
                             <h2>{image.title}</h2>
                             <p>
-                                Uploaded on 2021-02-06 7:05pm
+                                Uploaded on {image.date}
                             </p>
                             <p>
                                 [{image.tags}]

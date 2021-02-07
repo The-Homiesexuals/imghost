@@ -36,7 +36,8 @@ cursor.execute("""
 CREATE TABLE image(
     imageID TEXT PRIMARY KEY NOT NULL,
     title TEXT NOT NULL,
-    S3_URL TEXT NOT NULL
+    S3_URL TEXT NOT NULL,
+    uploadDate TEXT
 );
 """)
 # Create tag table
@@ -55,7 +56,7 @@ CREATE TABLE image_has_tags(
 """)
 
 # Insert sample data
-cursor.executemany("INSERT INTO image VALUES (?,?,?)", images)
+cursor.executemany("INSERT INTO image VALUES (?,?,?,datetime('now'))", images)
 cursor.executemany("INSERT INTO tag VALUES (?)", tags)
 cursor.executemany("INSERT INTO image_has_tags VALUES (?,?)", image_has_tags)
 
