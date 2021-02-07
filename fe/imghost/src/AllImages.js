@@ -50,7 +50,7 @@ function AllImages() {
             setImages(response.data.images);
         }).catch(function(error) {
             alert("There was a problem fetching the images!")
-        });
+        },[]);
     });
 
     return (
