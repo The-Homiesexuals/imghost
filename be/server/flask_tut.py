@@ -1,8 +1,9 @@
 from sentence_url import SentenceURL
-from flask import Flask, redirect, url_for, render_template, request, session, flash
+from flask import Flask, redirect, url_for, render_template, request, session, flash, Response
 from flask_cors import CORS
 import json
 import database_queries
+import ML_Tags
 #from datetime import timedelta
 
 app = Flask(__name__)
@@ -20,18 +21,19 @@ def home():
 def upload():
     request_data = request.get_json()
     s3bucket = request_data['s3bucket']
-    img_link = s3bucket['location']
-    img_name = request_data['img_name']
-    img_tags = request_data['img_tags']
-    pretty_url = generator.generate()
+    S3_URL = s3bucket['location']
+    title = request_data['img_name']
+    tags = request_data['img_tags']
+    imageId = generator.generate()
     #return((url, neat_url))
-    database_queries.addNewImage(pretty_url, img_name, img_link)
-    print(s3bucket, img_name, img_tags, pretty_url)
+    database_queries.addNewImage(imageId, title, S3_URL)
+    database_queries.addTagsToImage(imageId, ML_Tags.generateImageTags(S3_URL))
+    print(s3bucket, title, tags, imageId)
     json_dict = {
         "s3bucket": s3bucket,
-        "title": img_name,
-        "tags": img_tags,
-        "imageId": pretty_url }
+        "title": title,
+        "tags": tags,
+        "imageId": imageId }
 
     return(json.dumps(json_dict))
 
@@ -39,6 +41,7 @@ def upload():
 @app.route("/image/<imageId>", methods=["GET", "DELETE"])
 def fetchDelete(imageId):
     if request.method == "GET":
+        #print("Here is thingy ->", imageId)
         image_found = database_queries.getImageData(imageId)
         print(image_found)
 
@@ -50,29 +53,41 @@ def fetchDelete(imageId):
         }
         return(json.dumps(json_dict))
     else:
-         request_data = request.get_json()
-         find_image = request_data['pretty_url']
-         image_found = database_queries.deleteImage(find_image)
-         json_dict = {
-             "S3_URL": image_found
-         }
-         return(json.dump(json_dict))
+         database_queries.deleteImage(imageId)
+         return Response("{'a':'b'}", status=202, mimetype='application/json')
 
-@app.route("/images", methods=["GET"])
+@app.route("/images/", methods=["GET"])
 def multiImage():
-    images_found = database_queries.getAllImages(find_image)
-    json_dict = {
-        "img_urls": images_found
+    images_found = database_queries.getAllImages()
+    print(images_found)
+    json_list = []
+    for i in images_found:
+        image_found = database_queries.getImageData(i[0])
+        json_dict1 = {
+            "S3_URL": image_found[0],
+            "title": image_found[1],
+            "date": image_found[2],
+            "tags": image_found[3],
+            "imageId": i[0]
+        }
+        json_list.append(json_dict1)
+
+    json_dict2 = {
+        "images": json_list
     }
-    return(json.dump(json_dict))
+    print(json_dict2)
+    return(json.dumps(json_dict2))
 
 @app.route("/random", methods=["GET"])
 def randomImage():
     image_found = database_queries.getRandImage(find_image)
     json_dict = {
-        "img_url": image_found
+        "S3_URL": image_found[0],
+        "title": image_found[1],
+        "date": image_found[2],
+        "tags": image_found[3]
     }
-    return(json.dump(json_dict))
+    return(json.dumps(json_dict))
 
 
 """

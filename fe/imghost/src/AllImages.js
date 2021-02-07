@@ -14,26 +14,23 @@ const HeaderStyling  = {'color': 'var(--secondary)'};
 const cardImage = {
     objectFit: 'cover',
     width: 'auto',
-    height: '30vh'
+    height: '30vh',
+    borderRadius:'10px'
 }
 
 const cardStyle = {
-    width: '18rem', 
-    textAlign:'center', 
-    cursor:'pointer'
+    width: '18rem',
+    textAlign:'center',
+    cursor:'pointer',
+    borderRadius:'10px'
 }
 
 const hoveredCardStyle = {
-    width: '18rem', 
+    width: '18rem',
     textAlign:'center',
-    backgroundColor: 'red'
+    backgroundColor: 'red',
+    borderRadius:'10px'
 }
-// Card:
-// S3 URL (Internal)
-// Title 
-// Tags
-// External url
-// Date - Not needed for this
 
 function AllImages() {
 
@@ -50,8 +47,8 @@ function AllImages() {
             setImages(response.data.images);
         }).catch(function(error) {
             alert("There was a problem fetching the images!")
-        },[]);
-    });
+        });
+    },[]);
 
     return (
         <div>
@@ -63,23 +60,23 @@ function AllImages() {
                                 <Link to={`/image/${imageTemp.imageId}`}>
                                 <Card
                                     id = {imageTemp.imageId}
-                                    className="my-5" 
-                                    style={(hovered && hoveredID===imageTemp.imageId) ? hoveredCardStyle : cardStyle} 
+                                    className="my-5"
+                                    style={(hovered && hoveredID===imageTemp.imageId) ? hoveredCardStyle : cardStyle}
                                     onMouseEnter={() => {
                                         setHovered(true)
-                                        setHoveredId(imageTemp.imageId)}} 
+                                        setHoveredId(imageTemp.imageId)}}
                                     onMouseLeave={() => setHovered(false)}>
                                     <Card.Img variant="card-img-top" style = {cardImage} src={imageTemp.S3_URL} />
                                     <Card.Body style={{alignItems:'center'}}>
                                         <Card.Title style={{alignItems:'center'}}>{imageTemp.title}</Card.Title>
                                         <Card.Text>
-                                            {imageTemp.tags}
+                                            {imageTemp.tags && imageTemp.tags.toString().replace(/,/g, ', ')}
                                         </Card.Text>
                                     </Card.Body>
                                 </Card>
                                 </Link>
                             </Col >))
-                    }       
+                    }
                 </Row>
             </Container>
         </div>
