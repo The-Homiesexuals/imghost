@@ -89,6 +89,33 @@ def randomImage():
     }
     return(json.dumps(json_dict))
 
+@app.route("/search", methods=["GET"])
+def searchTag():
+    tags = request.args
+    print(tags)
+    search_tags = []
+    for value in tags.values():
+        search_tags.append(value)
+    images_found = database_queries.searchImagesByTags(search_tags, 10)
+    json_list = []
+    for i in images_found:
+        image_found = database_queries.getImageData(i[0])
+        json_dict1 = {
+            "S3_URL": image_found[0],
+            "title": image_found[1],
+            "date": image_found[2],
+            "tags": image_found[3],
+            "imageId": i[0]
+        }
+        json_list.append(json_dict1)
+
+    json_dict2 = {
+        "images": json_list
+    }
+    #print(json_dict2)
+    return(json.dumps(json_dict2))
+
+
 """
 @app.route("/login", methods=["POST", "GET"])
 def login():
