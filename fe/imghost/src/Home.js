@@ -132,7 +132,7 @@ function Upload({image}) {
       try {
         serverRes= await axios({
           method: 'post',
-          url: 'http://127.0.0.1:5000/image',
+          url: '/image',
           data: {
             s3bucket : res,
             img_name : name,
@@ -145,6 +145,7 @@ function Upload({image}) {
         console.log(serverRes);
       } catch(e) {
         alert('Something went wrong uploading, please try again.');
+        return;
       }
       let newUrl = '/image/'+serverRes.data.imageId;
       history.push(newUrl)
