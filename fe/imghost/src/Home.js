@@ -108,6 +108,8 @@ function Upload({image}) {
   const [name,setName] = useState('');
   const [tags,setTags] = useState('');
 
+  const history = useHistory();
+
   async function handleUpload(name, tags) {
     const file = await fetch(image).then( r=> r.blob());
 
@@ -144,7 +146,8 @@ function Upload({image}) {
       } catch(e) {
         alert('Something went wrong uploading, please try again.');
       }
-      // TODO: Re-direct to new URL/${serverRes}
+      let newUrl = '/image/'+serverRes.data.imageId;
+      history.push(newUrl)
   }
   
   return (
