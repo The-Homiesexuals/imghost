@@ -108,6 +108,8 @@ function Upload({image}) {
   const [name,setName] = useState('');
   const [tags,setTags] = useState('');
 
+  const history = useHistory();
+
   async function handleUpload(name, tags) {
     const file = await fetch(image).then( r=> r.blob());
 
@@ -130,7 +132,7 @@ function Upload({image}) {
       try {
         serverRes= await axios({
           method: 'post',
-          url: 'http://127.0.0.1:5000/image',
+          url: '/image',
           data: {
             s3bucket : res,
             img_name : name,
@@ -143,8 +145,10 @@ function Upload({image}) {
         console.log(serverRes);
       } catch(e) {
         alert('Something went wrong uploading, please try again.');
+        return;
       }
-      // TODO: Re-direct to new URL/${serverRes}
+      let newUrl = '/image/'+serverRes.data.imageId;
+      history.push(newUrl)
   }
   
   return (
