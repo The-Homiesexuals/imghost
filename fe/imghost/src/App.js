@@ -1,7 +1,6 @@
 import './App.css';
 import {
   BrowserRouter as Router,
-  Switch,
   Route,
   Link
 } from "react-router-dom";
@@ -11,8 +10,6 @@ import TestPage from './testpage.js'
 import { 
   Navbar,
   Nav,
-  Col,
-  Image
 } from 'react-bootstrap'
 
 function App() {
@@ -20,6 +17,7 @@ function App() {
     <Router>
       <div>
         <Header />
+
         <Route exact path = '/' component={Home}/>
         <Route path = '/about' component={About}/>
         <Route path = '/allimages' component={Home}/>
@@ -31,7 +29,9 @@ function App() {
 
 function Header() {
   return (
-    <Navbar className="navStyle"  variant="dark">
+    <Navbar 
+      style={{color: '#F8F8F8'}}
+      className="navStyle"  variant="dark" sticky='top'>
       <Navbar.Brand as = {Link} to='/'>
         <img
           style={{marginRight:10}}
@@ -48,6 +48,7 @@ function Header() {
         <Nav.Link as = {Link} to='/about'>About</Nav.Link>
         <Nav.Link as = {Link} to='/image'>Random</Nav.Link>
         <Nav.Link as = {Link} to='/testpage'>Test Page</Nav.Link>
+        
       </Nav>
     </Navbar>
 
