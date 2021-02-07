@@ -29,4 +29,10 @@ print(searchImagesByTag("Selfie"))
 
 print(getAllImages())
 
+print(getImageTags("HASD"))
+removeTagsFromImage("HASD",["Selfie"])
+print(getImageTags("HASD"))
+
+print(getRandomImage())
+
 disconnectFromDatabase()
