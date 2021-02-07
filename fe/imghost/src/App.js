@@ -39,7 +39,8 @@ function Header() {
       <Navbar.Brand as = {Link} to='/'>
         <img
           style={{marginRight:10}}
-          src="ghost-inverted.png"
+          //src="ghost-inverted.png"
+          src={process.env.PUBLIC_URL + '/ghost-inverted.png'}
           width="30"
           height="30"
           className="d-inline-block align-top"
