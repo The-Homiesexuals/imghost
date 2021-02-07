@@ -7,3 +7,4 @@ fe/imghost/src/keys.json
 
 be/server/images.db
 be/server/vision_api_key.json
+be/server/__pycache__/

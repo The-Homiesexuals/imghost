@@ -28,7 +28,7 @@ def upload():
     #return((url, neat_url))
     database_queries.addNewImage(imageId, title, S3_URL)
     database_queries.addTagsToImage(imageId, ML_Tags.generateImageTags(S3_URL))
-    print(s3bucket, title, tags, imageId)
+    #print(s3bucket, title, tags, imageId)
     json_dict = {
         "s3bucket": s3bucket,
         "title": title,
@@ -43,7 +43,7 @@ def fetchDelete(imageId):
     if request.method == "GET":
         #print("Here is thingy ->", imageId)
         image_found = database_queries.getImageData(imageId)
-        print(image_found)
+        #print(image_found)
 
         json_dict = {
             "S3_URL": image_found[0],
@@ -59,7 +59,7 @@ def fetchDelete(imageId):
 @app.route("/images/", methods=["GET"])
 def multiImage():
     images_found = database_queries.getAllImages()
-    print(images_found)
+    #print(images_found)
     json_list = []
     for i in images_found:
         image_found = database_queries.getImageData(i[0])
@@ -75,21 +75,16 @@ def multiImage():
     json_dict2 = {
         "images": json_list
     }
-    print(json_dict2)
+    #print(json_dict2)
     return(json.dumps(json_dict2))
 
 @app.route("/random", methods=["GET"])
 def randomImage():
-    image_found = database_queries.getImageData(database_queries.getRandomImage())
-    print("Image Found: ",image_found)
+    image_found = database_queries.getRandomImage()
     json_dict = {
-        "S3_URL": image_found[0],
-        "title": image_found[1],
-        "date": image_found[2],
-        "tags": image_found[3]
+        "img_url": image_found
     }
     return(json.dumps(json_dict))
-
 
 """
 @app.route("/login", methods=["POST", "GET"])
