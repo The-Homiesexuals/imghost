@@ -36,4 +36,6 @@ print(getImageTags("HASD"))
 
 print(getImageData("HASD"))
 
+print(searchImagesByTags(['Gamer','Selfie']))
+
 disconnectFromDatabase()

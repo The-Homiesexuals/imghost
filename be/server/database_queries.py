@@ -64,6 +64,15 @@ def searchImagesByTag(tag, maxResults=-1):
         return cursor.fetchall()
     return cursor.fetchmany(maxResults)
 
+def searchImagesByTags(tags, maxResults=-1):
+    global cursor
+    results = set()
+    for tag in tags:
+        cursor.execute("SELECT imageID FROM image_has_tags WHERE tagName=\""+tag+"\"")
+        for id in cursor.fetchall():
+            results.add(id)
+    return list(results)
+
 # POST/INSERTING
 def addNewImage(imageID,title,URL):
     if imageID == None or title == None or URL == None:
