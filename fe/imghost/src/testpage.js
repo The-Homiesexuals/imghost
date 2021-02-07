@@ -1,16 +1,65 @@
 import React, {useEffect, useState, useMemo} from 'react';
-// import ReactS3 from 'react-s3';
+import ReactS3 from 'react-s3';
 import keys from './keys.json';
 // import { useDropzone } from 'react-dropzone';
 // import Gluejar from 'react-gluejar';
-// import axios from 'axios';
+import axios from 'axios';
 // import { Container } from 'react-bootstrap';
 
 export default function Test() {
   return (
-    <div>
-    </div>
+    <FileUpload></FileUpload>
   );
+}
+
+function FileUpload() {
+
+  const [name,setName] = useState("");
+  const [tags,setTags] = useState("");
+
+
+  function handleUpload(event) {
+    console.log(event.target.files[0])
+    alert(name+" "+tags)
+    ReactS3.uploadFile(event.target.files[0],config).then((data)=>{
+      console.log(data);
+
+      //#IMPORTANT: replace path to server with application you're testing
+      axios({
+        method: 'post',
+        url: 'http://127.0.0.1:5000/image',
+        data: {
+          s3bucket : data,
+          img_name : name,
+          img_tags : tags,
+        },
+        headers: {
+          "Access-Control-Allow-Origin": "*"
+        }
+      }).then(function (res) {
+        console.log(res);
+      })
+      .catch((err) => {
+        alert(err);
+      });
+
+    })
+    .catch((err)=>{
+      alert(err);
+    })
+  }
+
+  return (
+    <div id='upload-box'>
+      <form>
+        <label>Name:</label><br/>
+        <input type="text" value={name} onChange={e => setName(e.target.value)}  /><br/>
+        <label>Tags:</label><br/>
+        <input type="text" value={tags} onChange={e => setTags(e.target.value)}/><br/><br/>
+        <input type="file" onChange={handleUpload}/>
+      </form>
+    </div>
+  )
 }
 
 // const textStyling  = {
@@ -30,12 +79,12 @@ export default function Test() {
 //   // paddingBottom: '300px', // TODO: Investigate why paddingBottom isn't working
 //   marginTop: 100,
 // };
-// const config = {
-//   bucketName: 'imghoststoragebucket',
-//   region: 'ca-central-1',
-//   accessKeyId: keys.accessKey,
-//   secretAccessKey: keys.secretKey,
-// };
+const config = {
+  bucketName: 'imghoststoragebucket',
+  region: 'ca-central-1',
+  accessKeyId: keys.accessKey,
+  secretAccessKey: keys.secretKey,
+};
 // const img = {
 //   height: '100%',
 //   // width: '100%',
