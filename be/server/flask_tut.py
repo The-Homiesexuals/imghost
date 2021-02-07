@@ -23,11 +23,14 @@ def upload():
     s3bucket = request_data['s3bucket']
     S3_URL = s3bucket['location']
     title = request_data['img_name']
-    tags = request_data['img_tags']
+    tags = request_data['img_tags'].split(',')
     imageId = generator.generate()
     #return((url, neat_url))
     database_queries.addNewImage(imageId, title, S3_URL)
-    database_queries.addTagsToImage(imageId, tags.split(',') + ML_Tags.generateImageTags(S3_URL))
+    for t in tags:
+        if t == '':
+            tags.remove(t)
+    database_queries.addTagsToImage(imageId, tags + ML_Tags.generateImageTags(S3_URL))
     #print(s3bucket, title, tags, imageId)
     json_dict = {
         "s3bucket": s3bucket,
