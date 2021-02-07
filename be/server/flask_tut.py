@@ -29,29 +29,28 @@ def upload():
     print(s3bucket, img_name, img_tags, pretty_url)
     json_dict = {
         "s3bucket": s3bucket,
-        "img_name": img_name,
-        "img_tags": img_tags,
-        "pretty_url": pretty_url }
+        "title": img_name,
+        "tags": img_tags,
+        "imageId": pretty_url }
 
     return(json.dumps(json_dict))
 
 
-@app.route("/image/<pretty_url>", methods=["GET", "DELETE"])
-def fetchDelete(pretty_url):
+@app.route("/image/<imageId>", methods=["GET", "DELETE"])
+def fetchDelete(imageId):
     if request.method == "GET":
-        request_data = request.get_json()
-        find_image = request_data['pretty_url']
-        image_found = database_queries.getImageURL(find_image)
+        image_found = database_queries.getImageData(imageId)
+
         json_dict = {
-            "img_url": image_found
+            "S3_URL": image_found
         }
-        return(json.dump(json_dict))
+        return(json.dumps(json_dict))
     else:
          request_data = request.get_json()
          find_image = request_data['pretty_url']
          image_found = database_queries.deleteImage(find_image)
          json_dict = {
-             "img_url": image_found
+             "S3_URL": image_found
          }
          return(json.dump(json_dict))
 
