@@ -16,7 +16,8 @@ def disconnectFromDatabase():
 
 # GET/QUERYS
 def getImageData(imageID): # (S3_URL, title, uploadDate, tags[])
-    global conn
+    if getImageURL(imageID) != None:
+        return None
     global cursor
     cursor.execute("SELECT S3_URL,title,uploadDate FROM image WHERE imageID=\""+imageID+"\"")
     r = cursor.fetchone()
@@ -24,6 +25,8 @@ def getImageData(imageID): # (S3_URL, title, uploadDate, tags[])
     return (r[0],r[1],r[2],list(map(lambda x:x[0], cursor.fetchall())))
 
 def getImageURL(imageID):
+    if getImageURL(imageID) != None:
+        return None
     global cursor
     cursor.execute("SELECT S3_URL FROM image WHERE imageID=\""+imageID+"\"")
     result = cursor.fetchone()
