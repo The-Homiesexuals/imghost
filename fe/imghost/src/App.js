@@ -59,7 +59,7 @@ function Header() {
 
 function Random() {
   return (
-    <Get url='http://127.0.0.1:5000/random'>
+    <Get url='/random'>
       {(error, response, isLoading, makeRequest, axios) => {
           if(error) {
             return (<div>Something bad happened: {error.message} <button onClick={() => makeRequest({ params: { reload: true } })}>Retry</button></div>)

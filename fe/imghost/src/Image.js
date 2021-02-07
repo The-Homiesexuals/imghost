@@ -70,7 +70,7 @@ export default function ImagePage() {
                   <Col>
                   <Button onClick={() => axios({
                       method: 'delete',
-                      url: `http://127.0.0.1:5000/image/${imageId}`,
+                      url: `/image/${imageId}`,
                     }).then(function(response){
                         history.push('/allimages')
                         //return <Redirect to ="/allimages"/>
