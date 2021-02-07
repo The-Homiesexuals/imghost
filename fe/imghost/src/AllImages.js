@@ -1,4 +1,3 @@
-import './allimages.css'
 import React, { useEffect } from 'react';
 import { Grid, Row, Col, Container, Card} from 'react-bootstrap';
 import {useState} from 'react';

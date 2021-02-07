@@ -5,7 +5,7 @@ import {
   Route,
   Link
 } from "react-router-dom";
-import AllImages from './allimages.js';
+import AllImages from './AllImages.js';
 import About from './About.js';
 import Home  from './Home.js';
 import ImagePage from './Image.js';
