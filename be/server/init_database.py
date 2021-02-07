@@ -56,7 +56,7 @@ CREATE TABLE image_has_tags(
 """)
 
 # Insert sample data
-cursor.executemany("INSERT INTO image VALUES (?,?,?,datetime('now'))", images)
+cursor.executemany("INSERT INTO image VALUES (?,?,?,datetime(CURRENT_TIMESTAMP, 'localtime'))", images)
 cursor.executemany("INSERT INTO tag VALUES (?)", tags)
 cursor.executemany("INSERT INTO image_has_tags VALUES (?,?)", image_has_tags)
 
