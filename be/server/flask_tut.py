@@ -80,7 +80,7 @@ def multiImage():
 
 @app.route("/random", methods=["GET"])
 def randomImage():
-    image_found = database_queries.getRandomImage()
+    image_found = database_queries.getImageData(database_queries.getRandomImage())
     print("Image Found: ",image_found)
     json_dict = {
         "S3_URL": image_found[0],
