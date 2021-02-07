@@ -72,7 +72,7 @@ def addNewImage(imageID,title,URL):
         raise Exception("Image " + imageID + " already exists")
     global conn
     global cursor
-    cursor.execute("INSERT INTO image VALUES (?,?,?,datetime('now'))", (imageID,title,URL))
+    cursor.execute("INSERT INTO image VALUES (?,?,?,datetime('now','localtime'))", (imageID,title,URL))
     conn.commit()
     return True
 
