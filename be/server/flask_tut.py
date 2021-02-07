@@ -40,9 +40,13 @@ def upload():
 def fetchDelete(imageId):
     if request.method == "GET":
         image_found = database_queries.getImageData(imageId)
+        print(image_found)
 
         json_dict = {
-            "S3_URL": image_found
+            "S3_URL": image_found[0],
+            "title": image_found[1],
+            "date": image_found[2],
+            "tags": image_found[3]
         }
         return(json.dumps(json_dict))
     else:
