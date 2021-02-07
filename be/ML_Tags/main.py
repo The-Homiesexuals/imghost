@@ -1,6 +1,5 @@
 import requests
 import io
-from PIL import Image
 from google.cloud import vision
 
 client = vision.ImageAnnotatorClient.from_service_account_file('./vision_api_key.json')
@@ -16,5 +15,5 @@ def generateImageTags(URL):
     return list(map(lambda x:x.description, labels))
 
 if __name__ == "__main__":
-    print(generateImageTags('https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/download.jpg'))
+    print(generateImageTags('https://imghoststoragebucket.s3.ca-central-1.amazonaws.com/eric-welch-eRwWGWkh0vU-unsplash.jpg'))
     # Image is Master cheif helmet wallpaper
