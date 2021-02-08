@@ -40,7 +40,7 @@ def getImageTags(imageID):
 
 def getAllImages():
     global cursor
-    cursor.execute("SELECT imageID FROM image")
+    cursor.execute("SELECT imageID FROM image ORDER BY date(uploadDate) DESC")
     result = cursor.fetchall()
     return result
 
